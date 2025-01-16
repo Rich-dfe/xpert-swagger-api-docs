@@ -1,0 +1,342 @@
+openapi: 3.0.0
+tags:
+  - name: customer
+    description: resources belonging to a customer
+  - name: group
+    description: resources relating to group
+  - name: licenses
+    description: all things license related
+  - name: logger
+    description: all things logger related
+  - name: loggers
+    description: all things related to a collective group of loggers
+  - name: user
+    description: resources belonging to a user
+  - name: users
+    description: users of the xpert system - SECURED WITH AUTHORIZER
+  
+paths:
+  /customer/loggers:
+    get:
+      tags:
+        - customer
+      summary: Get the loggers belonging to a customer
+      parameters:
+        - in: query
+          name: customerId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the customer
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 480
+                      description: Database id of logger
+                    logger_name:
+                      type: string
+                      example: "New Blue WL"  
+                    product_id:
+                      type: integer
+                      example: 1
+                    logger_uid:
+                      type: integer
+                      example: 261360397436195
+  /users:
+    get:
+      tags:
+        - users
+      summary: Get list of users and related information.
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      description: Uses decoded JWT parameters for routing in Lambda depending on the Cognito user group.
+      responses:
+        "200":
+          description: A json array of user names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /user/loggers:
+    get:
+      tags:
+        - user
+      summary: Get logger details using USER ID
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 480
+                      description: Database id of logger
+                    logger_name:
+                      type: string
+                      example: "New Blue WL"  
+                    product_id:
+                      type: integer
+                      example: 1
+                    logger_uid:
+                      type: integer
+                      example: 261360397436195                    
+  /user/groups:
+    get:
+      tags:
+        - user
+      summary: Fetch groups belong to user.
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing group information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 265
+                      description: Database id of group
+                    group_name:
+                      type: string
+                      example: "Paddock No.1"  
+                    notes:
+                      type: string
+                      example: "Some very interesting notes about Paddock No.1"
+  /group/loggers:
+    get:
+      tags:
+        - group
+      summary: Fetch loggers belonging to group.
+      parameters:
+        - in: query
+          name: groupId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 480
+                      description: Database id of logger
+                    logger_name:
+                      type: string
+                      example: "New Blue WL"  
+                    product_id:
+                      type: integer
+                      example: 1
+                    logger_uid:
+                      type: integer
+                      example: 261360397436195
+  /loggers/coords/:
+    get:
+      tags:
+        - loggers
+      summary: Get logger map coordinates
+      description: Gets the coordinates of the loggers as they appear on map in xpert
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        "200":
+          description: Array of latitiude and longitude values.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /licenses/customer:
+    get:
+      tags:
+        - licenses
+      summary: Get licenses belonging to a customer
+      description: Licenses belong to a customer using the customer ID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the customer
+      responses:
+        "200":
+          description: JSON array of license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+  /licenses/logger:
+    get:
+      tags:
+        - licenses
+      summary: Get licenses belonging to a logger
+      description: Licenses belong to a logger using the logger UID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Hex UID of the logger
+      responses:
+        "200":
+          description: JSON array of license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+  /licenses/logger/latest:
+    get:
+      tags:
+        - licenses
+      summary: Get the lastest license belonging to a logger
+      description: Latest license belong to a logger using the logger UID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Hex UID of the logger
+      responses:
+        "200":
+          description: Array containing single license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+  /licenses/renew:
+    post:
+      tags:
+        - licenses
+      summary: The callback to update licenses when payment has been completed - SECURED WITH AUTHORIZER
+      description: This processes orders for licenses 
+      consumes:
+        - application/json
+      requestBody:
+        description: The licenses to renew. Note, the uid can be hex or decimal
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/licenseParams" 
+      responses:
+        "200":
+          description: JSON array of license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+definitions:
+  licenseParams: # <----------
+    type: array
+    items:
+      type: object
+      required:
+        - uid
+        - licenses
+      properties:
+        uid:
+          type: string
+          example: "CAC80EAB4A5B"
+          description: Can be hex or decimal eequvalent
+        licenses:
+          type: array
+          items:
+            type: object
+            required:
+              - day
+              - month
+              - year
+              - quantity
+              - continue
+            properties:
+              day:
+                type: integer
+                example: 5
+              month:
+                type: integer
+                example: 9
+              year:
+                type: integer
+                example: 2024  
+              quantity:
+                type: integer
+                example: 2
+              continue:
+                type: boolean
