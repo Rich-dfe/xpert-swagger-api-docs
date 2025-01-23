@@ -18,6 +18,26 @@ tags:
     description: users of the xpert system - SECURED WITH AUTHORIZER
   
 paths:
+  /logger:
+    get:
+      tags:
+        - logger
+      summary: Get informationm about an individual logger
+      parameters:
+        - in: query
+          name: loggerId
+          schema:
+            type: integer
+          required: true
+          description: The row id of the database table
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/loggerResponse"
+              
   /customer/loggers:
     get:
       tags:
@@ -399,3 +419,83 @@ definitions:
                 example: 2
               continue:
                 type: boolean
+  loggerResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 524
+          description: Database id of logger
+        product_id:
+          type: integer
+          example: 524
+          description: Database id of logger
+        group_id:
+          type: integer
+          example: 66
+        user_id:
+          type: integer
+          example: 32
+        customer_id:
+          type: integer
+          example: 16
+        mp_user_sensor_count:
+          type: integer
+          example: 5  
+          description: ONLY USED WITH MPT LOGGERS
+        mp_sensor_id:
+          type: integer
+          example: 123456789
+          description: ONLY USED WITH MPT LOGGERS
+        logger_uid:
+          type: integer
+          example: 261360397436195
+        logger_hex_uid:
+          type: string
+          example: 'EDB4B5A5C523'
+        logger_name:
+          type: string
+          example: "EDB4B5A5C523 - New Blue WL"
+        settings_count:
+          type: integer
+          example: 3
+          description: NOT USED
+        sensor_spacing:
+          type: integer
+          example: 0
+          description: NOT USED
+        lat:
+          type: number
+          example: -43.545286
+          description: Latitiude of logger location
+        lng:
+          type: number
+          example: 172.635785
+          description: Longitude of logger location
+        timezone:
+          type: string
+          example: 'NZ'
+        timezone_offset:
+          type: number
+          example: 12.00
+          description: Timezone offset hours
+        notes:
+          type: string
+        settings: 
+          type: string
+          description: Psuedo field to enable the server settings download to work
+        firmwareVersionInUse:
+          type: integer
+          example: 123
+        firmwareVersionDateLogged:
+          type: integer
+          example: 1721691901
+          description: The date the firmware version was recorded on the server
+        created_at:
+          type: string
+          example: '2021-12-01T03:16:24.000Z'
+        updated_at:
+          type: string
+          example: '2021-12-01T03:16:24.000Z'
