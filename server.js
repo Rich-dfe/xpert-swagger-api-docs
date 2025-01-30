@@ -27,7 +27,7 @@ const swaggerOptions = {
     ]
   },
   //apis: ['./routes/*.js'] // Specify files containing Swagger documentation
-  apis: ['swagger.yaml','paths/*','schema/*'] // Specify files containing Swagger documentation
+  apis: ['swagger.yaml','paths/*','schemas/*'] // Specify files containing Swagger documentation
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

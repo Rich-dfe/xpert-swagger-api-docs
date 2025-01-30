@@ -20,6 +20,8 @@ tags:
     description: resources belonging to a user
   - name: users
     description: users of the xpert system - SECURED WITH AUTHORIZER
+  - name: settings
+    description: Endpoints for accessing the logger settings
   
 paths:
   /customer/loggers/:
@@ -46,3 +48,5 @@ paths:
     $ref: "paths/licenses-renew.yaml"    
   /dynamodb/diagnostic/:
     $ref: "path/dynamodb-diagnostic.yaml"
+  /settings/logger/config/:
+    $ref: "path/settings-logger-config.yaml"

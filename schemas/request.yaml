@@ -1,0 +1,38 @@
+definitions:
+  licenseParams: # <----------
+    type: array
+    items:
+      type: object
+      required:
+        - uid
+        - licenses
+      properties:
+        uid:
+          type: string
+          example: "CAC80EAB4A5B"
+          description: Can be hex or decimal eequvalent
+        licenses:
+          type: array
+          items:
+            type: object
+            required:
+              - day
+              - month
+              - year
+              - quantity
+              - continue
+            properties:
+              day:
+                type: integer
+                example: 5
+              month:
+                type: integer
+                example: 9
+              year:
+                type: integer
+                example: 2024  
+              quantity:
+                type: integer
+                example: 2
+              continue:
+                type: boolean

@@ -1,0 +1,52 @@
+/settings/logger/config:
+    get:
+      tags:
+        - settings
+      summary: Get information about an individual logger
+      parameters:
+        - in: query
+          name: loggerId
+          schema:
+            type: integer
+          required: true
+          description: The row id of the database table
+      responses:
+        "200":
+          description: Array of one object containing logger config information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    x0000:
+                      type: string
+                      example: 'New Blue'
+                      description: The logger name
+                    x000E:
+                      type: integer
+                      example: 0
+                      description: Channel A start time
+                    x0013:
+                      type: integer
+                      example: 0
+                      description: Channel A stop time
+                    x0060:
+                      type: integer
+                      example: 1
+                      description: Firmware update disable. 1 = disabled, 0 = enabled
+                    timezone:
+                      type: string
+                      example: 'NZ'
+                    notes:
+                      type: string
+                      example: 'Some notes about the logger'
+                    site:
+                      type: string
+                      example: 'The deployment site'
+                    group_name:
+                      type: string
+                      example: 'Home'
+
+  
