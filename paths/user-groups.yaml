@@ -1,0 +1,32 @@
+/user/groups:
+    get:
+      tags:
+        - user
+      summary: Fetch groups belong to user.
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing group information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 265
+                      description: Database id of group
+                    group_name:
+                      type: string
+                      example: "Paddock No.1"  
+                    notes:
+                      type: string
+                      example: "Some very interesting notes about Paddock No.1"

@@ -1,0 +1,24 @@
+/licenses/customer:
+    get:
+      tags:
+        - licenses
+      summary: Get licenses belonging to a customer
+      description: Licenses belong to a customer using the customer ID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the customer
+      responses:
+        "200":
+          description: JSON array of license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array

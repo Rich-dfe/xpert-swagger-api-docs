@@ -1,0 +1,50 @@
+/licenses/renew:
+    post:
+      tags:
+        - licenses
+      summary: The callback to update licenses when payment has been completed - SECURED WITH AUTHORIZER
+      description: This processes orders for licenses 
+      consumes:
+        - application/json
+      requestBody:
+        description: The licenses to renew. Note, the uid can be hex or decimal
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - uid
+                  - licenses
+                properties:
+                  uid:
+                    type: string
+                    example: "CAC80EAB4A5B"
+                    description: Can be hex or decimal eequvalent
+                  licenses:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - day
+                        - month
+                        - year
+                        - quantity
+                        - continue
+                      properties:
+                        day:
+                          type: integer
+                          example: 5
+                        month:
+                          type: integer
+                          example: 9
+                        year:
+                          type: integer
+                          example: 2024  
+                        quantity:
+                          type: integer
+                          example: 2
+                        continue:
+                          type: boolean

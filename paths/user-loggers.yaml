@@ -1,0 +1,35 @@
+/user/loggers:
+    get:
+      tags:
+        - user
+      summary: Get logger details using USER ID
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 480
+                      description: Database id of logger
+                    logger_name:
+                      type: string
+                      example: "New Blue WL"  
+                    product_id:
+                      type: integer
+                      example: 1
+                    logger_uid:
+                      type: integer
+                      example: 261360397436195   

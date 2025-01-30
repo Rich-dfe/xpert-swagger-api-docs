@@ -1,0 +1,56 @@
+/dynamodb/diagnostic:
+    get:
+      tags:
+        - dynamodb
+      summary: Dignostic Data from AWS DynamoDb
+      description: Fetches the most recent diagnostic data for a logger
+      parameters:
+        - in: query
+          name: uidDecimal
+          schema:
+            type: integer
+          required: true
+          description: Decimal UID of the logger
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    createdAt:
+                      type: integer
+                      example: 1727218572318
+                      description: Record created unix timestamp milliseconds
+                    ttlDate:
+                      type: integer
+                      example: 1884984972
+                      description: Time to live unix timestamp seconds 
+                    loggerUid:
+                      type: integer
+                      example: 261360397436195
+                      description: Logger serial number in decimal format
+                    diagnotics:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            type: integer
+                            example: 4099
+                            description: Sensor ID decimal
+                          data1:
+                            type: integer
+                            example: 2442
+                            description: Primary data value
+                          data2:
+                            type: integer
+                            example: 174
+                            description: Secondary data value
+                    logDateTime:
+                      type: integer
+                      example: 1727175601
+                      description: Date the diagnostic data was logged by the logger

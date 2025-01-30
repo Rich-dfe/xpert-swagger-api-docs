@@ -1,0 +1,29 @@
+/users:
+    get:
+      tags:
+        - users
+      summary: Get list of users and related information.
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      description: Uses decoded JWT parameters for routing in Lambda depending on the Cognito user group.
+      responses:
+        "200":
+          description: A json array of user names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string

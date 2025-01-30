@@ -1,0 +1,505 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Xpert 
+  description: Xpert API Documentation
+tags:
+  - name: customer
+    description: resources belonging to a customer
+  - name: dynamodb
+    description: Data from AWS DynamoDb
+  - name: group
+    description: resources relating to group
+  - name: licenses
+    description: all things license related
+  - name: logger
+    description: all things logger related
+  - name: loggers
+    description: all things related to a collective group of loggers
+  - name: user
+    description: resources belonging to a user
+  - name: users
+    description: users of the xpert system - SECURED WITH AUTHORIZER
+  
+paths:
+  /logger:
+    get:
+      tags:
+        - logger
+      summary: Get information about an individual logger
+      parameters:
+        - in: query
+          name: loggerId
+          schema:
+            type: integer
+          required: true
+          description: The row id of the database table
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/loggerResponse"
+              
+  /customer/loggers:
+    get:
+      tags:
+        - customer
+      summary: Get the loggers belonging to a customer
+      parameters:
+        - in: query
+          name: customerId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the customer
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 480
+                      description: Database id of logger
+                    logger_name:
+                      type: string
+                      example: "New Blue WL"  
+                    product_id:
+                      type: integer
+                      example: 1
+                    logger_uid:
+                      type: integer
+                      example: 261360397436195
+  /users:
+    get:
+      tags:
+        - users
+      summary: Get list of users and related information.
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      description: Uses decoded JWT parameters for routing in Lambda depending on the Cognito user group.
+      responses:
+        "200":
+          description: A json array of user names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /user/loggers:
+    get:
+      tags:
+        - user
+      summary: Get logger details using USER ID
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 480
+                      description: Database id of logger
+                    logger_name:
+                      type: string
+                      example: "New Blue WL"  
+                    product_id:
+                      type: integer
+                      example: 1
+                    logger_uid:
+                      type: integer
+                      example: 261360397436195                    
+  /user/groups:
+    get:
+      tags:
+        - user
+      summary: Fetch groups belong to user.
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing group information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 265
+                      description: Database id of group
+                    group_name:
+                      type: string
+                      example: "Paddock No.1"  
+                    notes:
+                      type: string
+                      example: "Some very interesting notes about Paddock No.1"
+  /group/loggers:
+    get:
+      tags:
+        - group
+      summary: Fetch loggers belonging to group.
+      parameters:
+        - in: query
+          name: groupId
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the user
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 480
+                      description: Database id of logger
+                    logger_name:
+                      type: string
+                      example: "New Blue WL"  
+                    product_id:
+                      type: integer
+                      example: 1
+                    logger_uid:
+                      type: integer
+                      example: 261360397436195
+  /loggers/coords/:
+    get:
+      tags:
+        - loggers
+      summary: Get logger map coordinates
+      description: Gets the coordinates of the loggers as they appear on map in xpert
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        "200":
+          description: Array of latitiude and longitude values.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /licenses/customer:
+    get:
+      tags:
+        - licenses
+      summary: Get licenses belonging to a customer
+      description: Licenses belong to a customer using the customer ID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the customer
+      responses:
+        "200":
+          description: JSON array of license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+  /licenses/logger:
+    get:
+      tags:
+        - licenses
+      summary: Get licenses belonging to a logger
+      description: Licenses belong to a logger using the logger UID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Hex UID of the logger
+      responses:
+        "200":
+          description: JSON array of license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+  /licenses/logger/latest:
+    get:
+      tags:
+        - licenses
+      summary: Get the lastest license belonging to a logger
+      description: Latest license belong to a logger using the logger UID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Hex UID of the logger
+      responses:
+        "200":
+          description: Array containing single license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+  /licenses/renew:
+    post:
+      tags:
+        - licenses
+      summary: The callback to update licenses when payment has been completed - SECURED WITH AUTHORIZER
+      description: This processes orders for licenses 
+      consumes:
+        - application/json
+      requestBody:
+        description: The licenses to renew. Note, the uid can be hex or decimal
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/licenseParams" 
+      responses:
+        "200":
+          description: JSON array of license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
+  /dynamodb/diagnostic:
+    get:
+      tags:
+        - dynamodb
+      summary: Dignostic Data from AWS DynamoDb
+      description: Fetches the most recent diagnostic data for a logger
+      parameters:
+        - in: query
+          name: uidDecimal
+          schema:
+            type: integer
+          required: true
+          description: Decimal UID of the logger
+      responses:
+        "200":
+          description: Array of JSON objects containing logger information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    createdAt:
+                      type: integer
+                      example: 1727218572318
+                      description: Record created unix timestamp milliseconds
+                    ttlDate:
+                      type: integer
+                      example: 1884984972
+                      description: Time to live unix timestamp seconds 
+                    loggerUid:
+                      type: integer
+                      example: 261360397436195
+                      description: Logger serial number in decimal format
+                    diagnotics:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            type: integer
+                            example: 4099
+                            description: Sensor ID decimal
+                          data1:
+                            type: integer
+                            example: 2442
+                            description: Primary data value
+                          data2:
+                            type: integer
+                            example: 174
+                            description: Secondary data value
+                    logDateTime:
+                      type: integer
+                      example: 1727175601
+                      description: Date the diagnostic data was logged by the logger
+
+definitions:
+  licenseParams: # <----------
+    type: array
+    items:
+      type: object
+      required:
+        - uid
+        - licenses
+      properties:
+        uid:
+          type: string
+          example: "CAC80EAB4A5B"
+          description: Can be hex or decimal eequvalent
+        licenses:
+          type: array
+          items:
+            type: object
+            required:
+              - day
+              - month
+              - year
+              - quantity
+              - continue
+            properties:
+              day:
+                type: integer
+                example: 5
+              month:
+                type: integer
+                example: 9
+              year:
+                type: integer
+                example: 2024  
+              quantity:
+                type: integer
+                example: 2
+              continue:
+                type: boolean
+  loggerResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 524
+          description: Database id of logger
+        product_id:
+          type: integer
+          example: 524
+          description: Database id of logger
+        group_id:
+          type: integer
+          example: 66
+        user_id:
+          type: integer
+          example: 32
+        customer_id:
+          type: integer
+          example: 16
+        mp_user_sensor_count:
+          type: integer
+          example: 5  
+          description: ONLY USED WITH MPT LOGGERS
+        mp_sensor_id:
+          type: integer
+          example: 123456789
+          description: ONLY USED WITH MPT LOGGERS
+        logger_uid:
+          type: integer
+          example: 261360397436195
+        logger_hex_uid:
+          type: string
+          example: 'EDB4B5A5C523'
+        logger_name:
+          type: string
+          example: "EDB4B5A5C523 - New Blue WL"
+        settings_count:
+          type: integer
+          example: 3
+          description: NOT USED
+        sensor_spacing:
+          type: integer
+          example: 0
+          description: NOT USED
+        lat:
+          type: number
+          example: -43.545286
+          description: Latitiude of logger location
+        lng:
+          type: number
+          example: 172.635785
+          description: Longitude of logger location
+        timezone:
+          type: string
+          example: 'NZ'
+        timezone_offset:
+          type: number
+          example: 12.00
+          description: Timezone offset hours
+        notes:
+          type: string
+        settings: 
+          type: string
+          description: Psuedo field to enable the server settings download to work
+        firmwareVersionInUse:
+          type: integer
+          example: 123
+        firmwareVersionDateLogged:
+          type: integer
+          example: 1721691901
+          description: The date the firmware version was recorded on the server
+        created_at:
+          type: string
+          example: '2021-12-01T03:16:24.000Z'
+        updated_at:
+          type: string
+          example: '2021-12-01T03:16:24.000Z'

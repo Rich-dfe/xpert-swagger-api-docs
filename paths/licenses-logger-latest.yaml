@@ -1,0 +1,24 @@
+/licenses/logger/latest:
+    get:
+      tags:
+        - licenses
+      summary: Get the lastest license belonging to a logger
+      description: Latest license belong to a logger using the logger UID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Hex UID of the logger
+      responses:
+        "200":
+          description: Array containing single license information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: JSON array
