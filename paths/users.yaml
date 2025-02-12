@@ -3,12 +3,8 @@
       tags:
         - users
       summary: Get list of users and related information.
-      parameters:
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-          required: true
+      security:
+        - bearerAuth: []
       description: Uses decoded JWT parameters for routing in Lambda depending on the Cognito user group.
       responses:
         "200":

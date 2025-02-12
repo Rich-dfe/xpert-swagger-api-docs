@@ -1,0 +1,56 @@
+/customers:
+    get:
+      tags:
+        - customers
+      summary: Get list of users and related information.
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: query
+          name: userid
+          schema:
+            type: integer
+          required: false
+          description: The database primary id of the user. Only required when fetching the customer who the user belongs to. 
+      description: Uses decoded JWT parameters for routing in Lambda depending on the Cognito user group. The cognito ID token is required.
+      responses:
+        "200":
+          description: A json array of customer information
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 16
+                      description: Database primary id of customer
+                    company_name:
+                      type: string
+                      example: "4D-Electronics"  
+                    agent_id:
+                      type: integer
+                      example: 21
+                      description: The primary id of customer who is the admin of this customer
+                    is_agent:
+                      type: integer
+                      example: 0
+                      description: A flag to indicate this customer is an admin user (1=yes, 0=no)
+        "400":
+          description: No userid sent.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "401":
+          description: Authorization ID token not sent or incorrect.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string

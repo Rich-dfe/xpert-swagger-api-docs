@@ -3,9 +3,20 @@ info:
   version: 1.0.0
   title: Xpert 
   description: Xpert API Documentation
+components:
+  securitySchemes:
+    bearerAuth:
+      type: 'http'
+      scheme: 'bearer'
+      bearerFormat: 'JWT'
+      in: 'header'
+      name: 'Authorization'
+      description: 'JWT token for authentication'
 tags:
   - name: customer
     description: resources belonging to a customer
+  - name: customers
+    description: resources belonging to customers
   - name: dynamodb
     description: Data from AWS DynamoDb
   - name: group
@@ -23,9 +34,12 @@ tags:
   - name: settings
     description: Endpoints for accessing the logger settings
   
+  
 paths:
   /customer/loggers/:
     $ref: "paths/customer-loggers.yaml"
+  /customers/:
+    $ref: "paths/customers.yaml"
   /logger/:
     $ref: "paths/logger.yaml"
   /users/:
