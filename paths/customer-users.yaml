@@ -1,0 +1,38 @@
+/customer/users:
+    get:
+      tags:
+        - customer
+      summary: Get the users associated with a customer
+      security:
+        - cognitoAuth: []
+      parameters:
+        - in: query
+          name: customerId
+          schema:
+            type: integer
+          required: true
+          description: Database primary key of the customer
+      responses:
+        "200":
+          description: Array of JSON objects containing user information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 10
+                      description: Database primary key of the user
+                    name:
+                      type: string
+                      example: "Dataflow Engineering"  
+                    email:
+                      type: string
+                      example: "name@domain.com"
+                    customer_id:
+                      type: integer
+                      example: 16
+                      description: "Database primary id of the customer"

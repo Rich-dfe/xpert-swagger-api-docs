@@ -4,7 +4,7 @@
         - customers
       summary: Get list of users and related information.
       security:
-        - bearerAuth: []
+        - cognitoAuth: []
       parameters: 
         - in: query
           name: userid

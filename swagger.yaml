@@ -5,7 +5,7 @@ info:
   description: Xpert API Documentation
 components:
   securitySchemes:
-    bearerAuth:
+    cognitoAuth:
       type: 'http'
       scheme: 'bearer'
       bearerFormat: 'JWT'
@@ -38,6 +38,8 @@ tags:
 paths:
   /customer/loggers/:
     $ref: "paths/customer-loggers.yaml"
+  /customer/users/:
+    $ref: "paths/customer-users.yaml"
   /customers/:
     $ref: "paths/customers.yaml"
   /logger/:

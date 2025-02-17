@@ -20,10 +20,13 @@ const swaggerOptions = {
       //   url: 'https://swapi.dev/api/'
       // },
       {
+        url: 'https://lj0tvmbnwe.execute-api.ap-southeast-2.amazonaws.com/prod/'
+      },
+      {
         url: 'https://lj0tvmbnwe.execute-api.ap-southeast-2.amazonaws.com/dev/'
       },
       {
-        url: 'https://lj0tvmbnwe.execute-api.ap-southeast-2.amazonaws.com/prod/'
+        url: 'https://lj0tvmbnwe.execute-api.ap-southeast-2.amazonaws.com/test/'
       }
     ]
   },
