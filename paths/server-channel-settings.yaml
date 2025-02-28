@@ -1,0 +1,48 @@
+/sensors/channel:
+    get:
+      tags:
+        - server settings
+      summary: Fetch all channel settings whether disabled or enabled.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: lid
+          schema:
+            type: integer
+          required: true
+          description: Numeric database ID of the logger
+        - in: query
+          name: ch
+          schema:
+            type: string
+          required: true
+          description: The letter pertaining to the channel (a,b,c or d) 
+      responses:
+        "200":
+          description: Array of JSON objects each containing the sensor state.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "x1018"
+                        description: Sensor ID
+                      state:
+                        type: integer
+                        example: 1 
+                        description: 1 = enabled, 0 = disabled
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string

@@ -33,7 +33,8 @@ tags:
     description: users of the xpert system - SECURED WITH AUTHORIZER
   - name: settings
     description: Endpoints for accessing the logger settings
-  
+  - name: server settings
+    description: Endpoints for accessing logger settings sent from the server on sync
   
 paths:
   /customer/loggers/:
@@ -66,3 +67,5 @@ paths:
     $ref: "path/dynamodb-diagnostic.yaml"
   /settings/logger/config/:
     $ref: "path/settings-logger-config.yaml"
+  /sensors/channel/:
+    $ref: "path/server-channel-settings.yaml"
