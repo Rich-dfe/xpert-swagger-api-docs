@@ -4,7 +4,7 @@
         - server settings
       summary: Fetch all channel settings whether disabled or enabled.
       security:
-        - bearerAuth: []
+        - cognitoAuth: []
       parameters:
         - in: query
           name: lid
@@ -46,3 +46,69 @@
                 type: object
                 items:
                   type: string
+    put:
+      tags:
+          - server settings
+      summary: Enables or disables channel sensor.
+      security:
+        - cognitoAuth: []
+      consumes:
+        - application/json
+      requestBody:
+        description: An object containing data about which logger and sensor to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ch:
+                  type: string
+                  example: "a"
+                  description: Letter denoting the channel a,b,c or d
+                lid:
+                  type: integer
+                  example: 524
+                  description: database primary key of logger
+                sensor_id:
+                  type: string
+                  example: x1001
+                value:
+                  type: integer
+                  example: 0
+                  description: The new value 1 = enable, 0 = disable
+      responses:
+        "200":
+          description: A JSON objects containing the database update result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fieldCount:
+                    type: integer
+                    example: 0
+                    description: Can be ignored
+                  affectedRows:
+                    type: integer
+                    example: 1 
+                    description: The number of rows affected in the database. Should = 1.
+                  insertId:
+                    type: integer
+                    example: 0 
+                    description: Can be ignored. Should - 0.  
+                  info:
+                    type: string
+                    example: "Rows matched: 1 Changed: 1 Warnings: 0"
+                    description: Some information about the result of the request.  
+                  serverStatus:
+                    type: integer
+                    example: 34 
+                    description: Flags indicating the server status. Can be ignored   
+                  warningStatus:
+                    type: integer
+                    example: 0 
+                  changedRows:
+                    type: integer
+                    example: 1 
+                    description: Indicates the number of rows changed. Should = 1.               

@@ -4,7 +4,7 @@
         - users
       summary: Get list of users and related information.
       security:
-        - bearerAuth: []
+        - cognitoAuth: []
       description: Uses decoded JWT parameters for routing in Lambda depending on the Cognito user group.
       responses:
         "200":
